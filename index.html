@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fading Text Transition</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url('https://i.postimg.cc/KjqWx5ft/img-4.jpg');
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            color: black;
+            overflow: hidden;
+        }
+
+        #textContainer {
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .fade-out, .fade-in {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .fade-in {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+<div id="textContainer" onclick="changeText()">
+    <div id="displayText" class="fade-in">Click to Change Text</div>
+</div>
+
+<script>
+    let currentText = 1;
+
+    function changeText() {
+        const displayText = document.getElementById('displayText');
+
+        // 添加淡出类
+        displayText.classList.remove('fade-in');
+        displayText.classList.add('fade-out');
+
+        // 等待淡出完成后切换文字并添加淡入类
+        setTimeout(function () {
+            if (currentText === 1) {
+                displayText.textContent = 'Text 2';
+                currentText = 2;
+            } else if (currentText === 2) {
+                displayText.textContent = 'Text 3';
+                currentText = 3;
+            } else {
+                displayText.textContent = 'Click to Change Text';
+                currentText = 1;
+            }
+
+            displayText.classList.remove('fade-out');
+            displayText.classList.add('fade-in');
+        }, 500); // 500毫秒对应淡出的过渡时间
+    }
+</script>
+
+</body>
+</html>

@@ -1,74 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fading Text Transition</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-image: url("./Image/FDUlogo.JPG");
-            background-size: cover;
-            background-position: center;
-            font-family: Arial, sans-serif;
-            color: black;
-            overflow: hidden;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+      }
 
-        #textContainer {
-            text-align: center;
-            cursor: pointer;
-        }
+      .image-container {
+        position: relative;
+        overflow: hidden;
+      }
 
-        .fade-out, .fade-in {
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-        }
+      .image-container img {
+        max-height: 100%;
+        width: auto;
+      }
 
-        .fade-in {
-            opacity: 1;
-        }
+      .text-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: black;
+        font-size: 24px;
+        font-weight: bold;
+        opacity: 1;
+        transition: opacity 0.5s ease-in-out;
+        cursor: pointer;
+      }
+
+      .text-overlay:hover {
+        opacity: 0.3;
+      }
+
+      .text-overlay-head {
+        position: absolute;
+        top: 2%;
+        left: 5%;
+        color: black;
+        font-size: 30px;
+        font-weight: bold;
+        opacity: 1;
+      }
     </style>
-</head>
-<body>
+    <script>
+      var texts = [
+        "第一段文字\
+        第一段文字\
+        第一段文字\
+        第一段文字\
+        第一段文字\
+      ",
+        "第二段文字",
+        "第三段文字",
+      ];
+      var currentIndex = 0;
 
-<div id="textContainer" onclick="changeText()">
-    <div id="displayText" class="fade-in">Click to Change Text</div>
-</div>
-
-<script>
-    let currentText = 1;
-
-    function changeText() {
-        const displayText = document.getElementById('displayText');
-
-        // 添加淡出类
-        displayText.classList.remove('fade-in');
-        displayText.classList.add('fade-out');
-
-        // 等待淡出完成后切换文字并添加淡入类
-        setTimeout(function () {
-            if (currentText === 1) {
-                displayText.textContent = 'Text 2';
-                currentText = 2;
-            } else if (currentText === 2) {
-                displayText.textContent = 'Text 3';
-                currentText = 3;
-            } else {
-                displayText.textContent = 'Click to Change Text';
-                currentText = 1;
-            }
-
-            displayText.classList.remove('fade-out');
-            displayText.classList.add('fade-in');
-        }, 500); // 500毫秒对应淡出的过渡时间
-    }
-</script>
-
-</body>
+      function changeText() {
+        var textOverlay = document.querySelector(".text-overlay");
+        textOverlay.innerHTML = texts[currentIndex];
+        currentIndex = (currentIndex + 1) % texts.length;
+      }
+    </script>
+    <title>我们想对你说</title>
+  </head>
+  <body>
+    <div class="image-container">
+      <img src="./Image/background1.jpg" alt="Your Image" />
+      <div class="text-overlay" onclick="changeText()">第一段文字</div>
+      <div class="text-overlay-head">学弟学妹们，我们想对你说———</div>
+    </div>
+  </body>
 </html>

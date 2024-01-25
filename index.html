@@ -23,11 +23,23 @@
       .image-container {
         position: relative;
         overflow: hidden;
+        min-height: 100vh;
+        min-width: 100vw;
       }
 
       .image-container img {
-        height: 100vh;
-        width: auto;
+        min-height: 100vh;
+        min-width: 100vw;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 1;
+        transition: opacity 1s ease-in-out;
+      }
+
+      .visible {
+        opacity: 1;
       }
 
       .text-overlay {
@@ -43,7 +55,7 @@
         cursor: pointer;
         text-align: left;
         line-height: 1.7;
-        /* width: 50%; */
+        /* width: 70wh; */
       }
 
       .text-overlay:hover {
@@ -60,38 +72,69 @@
         opacity: 1;
       }
     </style>
-    <script>
-      var texts = [
-        "&nbsp;&nbsp;&nbsp;&nbsp; 复旦的生活真的比高中自由很多！\
-      上课也不会再那么死板，老师们都会讲很多有趣的时闻甚至是小故事，\
-      特别特别有意思！平时没课了还能去五角场晃悠几圈，书店饭店一应俱全，来必赢！！",
-        "&nbsp;&nbsp;&nbsp;&nbsp; 学弟学妹一定要有信心！英语135没到、语文110没到，\
-        最后照样能读经管！所以相信自己，轻舟已过万重山~",
-        "给大家两个小小的建议：<br>\
-        &nbsp;&nbsp;&nbsp;&nbsp; 1.大学数学和高中数学是两个体系，高中数学能学好不代表高等数学能学好，理工类的同学们可千万不能懈怠哦<br>\
-        &nbsp;&nbsp;&nbsp;&nbsp; 2.大学考试信息差的影响力增大，能否获得往届资料、题目比较关键，希望这些能在以后帮到大家",
-      ];
-      var currentIndex = 0;
-
-      function changeText() {
-        var textOverlay = document.querySelector(".text-overlay");
-        textOverlay.style.opacity = 0; /* 变淡 */
-        setTimeout(function () {
-          textOverlay.innerHTML = texts[currentIndex];
-          currentIndex = (currentIndex + 1) % texts.length;
-          textOverlay.style.opacity = 1; /* 浮现 */
-        }, 500); /* 设置延迟，确保变淡效果完成 */
-      }
-    </script>
     <title>我们想对你说...</title>
   </head>
   <body>
     <div class="image-container">
-      <img src="./Image/background1.jpg" alt="Your Image" />
+      <!-- <img src="./Image/background1.jpg" alt="Your Image" /> -->
+      <img
+        id="slideshowImage"
+        src="./Image/background1.jpg"
+        alt="Slideshow Image"
+        class="visible"
+      />
       <div class="text-overlay" onclick="changeText()">
         （轻轻点我看下一条嗷）
       </div>
       <div class="text-overlay-head">学弟学妹们，我们想对你说——</div>
     </div>
   </body>
+
+  <script>
+    //   文字切换动画
+    var texts = [
+      "&nbsp;&nbsp;&nbsp;&nbsp; 复旦的生活真的比高中自由很多！\
+    上课也不会再那么死板，老师们都会讲很多有趣的时闻甚至是小故事，\
+    特别特别有意思！平时没课了还能去五角场晃悠几圈，书店饭店一应俱全，来必赢！！",
+      "&nbsp;&nbsp;&nbsp;&nbsp; 学弟学妹一定要有信心！英语135没到、语文110没到，\
+      最后照样能读经管！所以相信自己，轻舟已过万重山~",
+      "给大家两个小小的建议：<br>\
+      &nbsp;&nbsp;&nbsp;&nbsp; 1.大学数学和高中数学是两个体系，高中数学能学好不代表高等数学能学好，理工类的同学们可千万不能懈怠哦<br>\
+      &nbsp;&nbsp;&nbsp;&nbsp; 2.大学考试信息差的影响力增大，能否获得往届资料、题目比较关键，希望这些能在以后帮到大家",
+      "&nbsp;&nbsp;&nbsp;&nbsp; 复旦的学长学姐们都特别友好，很照顾小朋友。\
+      在三国杀圈子里我们几个新生一直被特别照顾，尤其是专业课学习方面，\
+      有特别优秀的学长学姐，还有已经毕业的学长都给俺花了很多时间单独辅导物理，真的特别感动！",
+    ];
+    var currentIndex = 0;
+
+    function changeText() {
+      var textOverlay = document.querySelector(".text-overlay");
+      textOverlay.style.opacity = 0; /* 变淡 */
+      setTimeout(function () {
+        textOverlay.innerHTML = texts[currentIndex];
+        currentIndex = (currentIndex + 1) % texts.length;
+        textOverlay.style.opacity = 1; /* 浮现 */
+      }, 500); /* 设置延迟，确保变淡效果完成 */
+    }
+
+    //   背景图片循环播放
+    let slideIndex = 0;
+    const images = [
+      "./Image/background1.jpg",
+      "./Image/background2.jpg",
+      "./Image/background3.jpg",
+    ];
+    const slideshowImage = document.getElementById("slideshowImage");
+
+    function showNextImage() {
+      slideIndex = (slideIndex + 1) % images.length;
+      slideshowImage.style.opacity = 0;
+      setTimeout(() => {
+        slideshowImage.src = images[slideIndex];
+        slideshowImage.style.opacity = 1;
+      }, 1000); // 设置1秒延迟，确保淡出效果完成
+    }
+
+    setInterval(showNextImage, 5000);
+  </script>
 </html>

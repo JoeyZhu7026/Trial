@@ -20,6 +20,7 @@
         padding: 0;
       }
 
+      /* Styles for the container holding the images */
       .image-container {
         position: relative;
         overflow: hidden;
@@ -27,6 +28,7 @@
         min-width: 100vw;
       }
 
+      /* Styles for individual images */
       .image-container img {
         min-height: 100vh;
         min-width: 100vw;
@@ -34,12 +36,15 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        opacity: 1;
         transition: opacity 1s ease-in-out;
       }
 
+      /* Styles for the visible image (with opacity 1) */
       .visible {
         opacity: 1;
+      }
+      .invisible {
+        opacity: 0;
       }
 
       .text-overlay {
@@ -77,12 +82,10 @@
   <body>
     <div class="image-container">
       <!-- <img src="./Image/background1.jpg" alt="Your Image" /> -->
-      <img
-        id="slideshowImage"
-        src="./Image/background1.jpg"
-        alt="Slideshow Image"
-        class="visible"
-      />
+      <!-- Three images with different sources -->
+      <img src="./Image/background1.jpg" alt="Image 1" class="visible" />
+      <img src="./Image/background2.jpg" alt="Image 2" class="invisible" />
+      <img src="./Image/background3.jpg" alt="Image 3" class="invisible" />
       <div class="text-overlay" onclick="changeText()">
         （轻轻点我看下一条嗷）
       </div>
@@ -114,27 +117,25 @@
         textOverlay.innerHTML = texts[currentIndex];
         currentIndex = (currentIndex + 1) % texts.length;
         textOverlay.style.opacity = 1; /* 浮现 */
-      }, 500); /* 设置延迟，确保变淡效果完成 */
+      }, 1000); /* 设置延迟，确保变淡效果完成 */
     }
 
     //   背景图片循环播放
-    let slideIndex = 0;
-    const images = [
-      "./Image/background1.jpg",
-      "./Image/background2.jpg",
-      "./Image/background3.jpg",
-    ];
-    const slideshowImage = document.getElementById("slideshowImage");
+    let imageIndex = 1;
 
     function showNextImage() {
-      slideIndex = (slideIndex + 1) % images.length;
-      slideshowImage.style.opacity = 0;
-      setTimeout(() => {
-        slideshowImage.src = images[slideIndex];
-        slideshowImage.style.opacity = 1;
-      }, 1000); // 设置1秒延迟，确保淡出效果完成
+      const images = document.querySelectorAll(".image-container img");
+      // Remove the 'visible' class from the current image
+      images[imageIndex - 1].classList.remove("visible");
+      images[imageIndex - 1].classList.add("invisible");
+      // Calculate the index of the next image
+      imageIndex = (imageIndex % images.length) + 1;
+      // Add the 'visible' class to the next image
+      images[imageIndex - 1].classList.remove("invisible");
+      images[imageIndex - 1].classList.add("visible");
     }
 
+    // Set interval to call the showNextImage function every 3000 milliseconds (3 seconds)
     setInterval(showNextImage, 5000);
   </script>
 </html>
